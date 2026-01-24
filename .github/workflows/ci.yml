@@ -1,14 +1,32 @@
 name: CI Training
 
 on:
-  push
+  push:
+    branchs: ["main"]
 
 jobs:
-  hello-ci:
+  test:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    strategy:
+      matrix:
+        node-version: ["18", "20"]
+      fail-fast: false
 
-      - name: Say hello
-        run: echo "Hello Github Actions"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependacies
+        run: npm ci
+      
+      - name: test
+        run: npm test
+      
+      - run: npm run build

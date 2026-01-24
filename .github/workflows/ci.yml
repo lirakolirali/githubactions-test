@@ -19,11 +19,12 @@ jobs:
       - run: echo "${BRANCH}"
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          ref: ${{ env.BRANCH }}
           node-version: ${{ matrix.node-version }}
           cache: npm
 

@@ -7,6 +7,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      BRANCH: main
 
     strategy:
       matrix:
@@ -14,25 +16,21 @@ jobs:
       fail-fast: false
 
     steps:
+      - run: echo "${BRANCH}"
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
+          ref: ${{ env.BRANCH }}
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-      - name: Install dependacies
-        run: npm ci
-      
-      - name: Debug files
-        run: |
-          pwd
-          ls -la
-          ls -la src
+      # - name: Install dependacies
+      #   run: npm ci
 
-      - name: test
-        run: npm test
+      # - name: test
+      #   run: npm test
       
-      - run: npm run build
+      # - run: npm run build

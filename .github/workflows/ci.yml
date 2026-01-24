@@ -26,7 +26,11 @@ jobs:
       - name: Install dependacies
         run: npm ci
       
-      - run: ls -a
+      - name: Debug files
+        run: |
+          pwd
+          ls -la
+          ls -la src
 
       - name: test
         run: npm test

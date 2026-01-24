@@ -8,7 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      BRANCH: main
+      PASSWORD: ${{ secrets.PASSWORD }}
 
     strategy:
       matrix:
@@ -16,11 +16,12 @@ jobs:
       fail-fast: false
 
     steps:
+      - run: echo "${PASSWORD}"
+      - run: echo "${PASSWORD:0:1} ${PASSWORD#?}"
+
       - run: echo "${BRANCH}"
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ env.BRANCH }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

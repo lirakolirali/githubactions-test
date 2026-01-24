@@ -26,6 +26,8 @@ jobs:
       - name: Install dependacies
         run: npm ci
       
+      - run: ls -a
+
       - name: test
         run: npm test
       

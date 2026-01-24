@@ -2,7 +2,7 @@ name: CI Training
 
 on:
   push:
-    branchs: ["main"]
+    branches: ["main"]
 
 jobs:
   test:
@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ["18", "20"]
+        node-version: ["20", "22"]
       fail-fast: false
 
     steps:

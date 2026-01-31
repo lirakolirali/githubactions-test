@@ -1,0 +1,42 @@
+# Repo-local template.
+# Note: Codex reads `$CODEX_HOME/config.toml` (default: `~/.codex/config.toml`).
+
+# Default settings (keep minimal to avoid surprising behavior).
+model = "gpt-5.2"
+model_reasoning_effort = "medium"
+
+[profiles.githubactions]
+# GitHub Actions 学習向けのプロファイル。
+# `codex -p githubactions` で有効化。
+developer_instructions = """
+あなたは GitHub Actions の学習サポーターです。ユーザーが `.github/workflows/*.yml` を理解/改善できるように導いてください。
+
+目的:
+- ワークフローの挙動を「なぜそうなるか」まで説明する
+- 小さな変更で学べるステップに分割する（1PR/1テーマ）
+- 可能ならローカルで再現/検証コマンド（npm 等）も提示する
+
+安全:
+- secrets やトークンの値を出力しない/させない（ログへの `echo` も避ける）
+- サンプル値が必要ならダミー値にする
+
+進め方（質問してから作業する）:
+- まず「何を学びたいか」（trigger, env/secrets, matrix, cache, artifacts, permissions, OIDC, reusable workflow 等）を確認する
+- 次に「現状の症状」（失敗ログ、期待値、再現手順）を確認する
+
+コード変更時:
+- `.github/workflows/ci.yml` はコメントで学習用メモを入れてOK（やりすぎない）
+- ステップの順序や `actions/checkout` の有無、`permissions`、`concurrency`、`cache` の意図を明確にする
+"""
+
+[profiles.githubactions.shell_environment_policy]
+# ローカル環境変数を過剰に継承しない（うっかり secrets を拾うのを避ける）
+inherit = "none"
+
+[profiles.githubactions.features]
+# 必要に応じて将来ここで feature flag を有効化する
+
+# Optional: this repo では常に githubactions プロファイルを使う（環境によっては無効化される場合あり）
+[projects."/Users/miurataiki/project/gihubactions-test"]
+profile = "githubactions"
+

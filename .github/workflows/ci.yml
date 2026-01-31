@@ -5,34 +5,17 @@ on:
     branches: ["main"]
 
 jobs:
-  test:
+  first:
     runs-on: ubuntu-latest
-    env:
-      PASSWORD: ${{ secrets.PASSWORD }}
-
-    strategy:
-      matrix:
-        node-version: ["20"]
-      fail-fast: false
-
     steps:
-      - run: echo "${PASSWORD}"
-      - run: echo "${PASSWORD:0:1} ${PASSWORD#?}"
-
-      - run: echo "${BRANCH}"
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-
-      # - name: Install dependacies
-      #   run: npm ci
-
-      # - name: test
-      #   run: npm test
-      
-      # - run: npm run build
+      - run: sleep 10 && echo "First Job"
+  second:
+    runs-on: ubuntu-latest
+    needs: [first]
+    steps:
+      - run: sleep 10 && echo "Second Job"
+  third:
+    runs-on: ubuntu-latest
+    needs: [second]
+    steps:
+      - run: sleep 10 && echo "Third Job"
